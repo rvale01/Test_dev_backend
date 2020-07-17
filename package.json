@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "",
+  "engines": {
+    "node": "12.x"
+  },
+  "author": "Valentina Ronchi",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
