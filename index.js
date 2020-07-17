@@ -22,6 +22,7 @@ app.use(function (req, res, next) {
     next()
 });
 app.post('/question5/login', function (req, res) {
+    console.log('works')
     const { username, password } = req.body;
     const token = jwt.sign({ username }, password )
 
