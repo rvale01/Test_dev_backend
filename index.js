@@ -50,6 +50,7 @@ const insertIntoTable = (name, email, token, res) => {
                 function (err, fields) {
                     if (err) {
                         reject(err);
+                        res.json({ success: err, token });
                     } else {
                         res.json({ success: 'post call succeed!', token });
                         console.log("good it works")
