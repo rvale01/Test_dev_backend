@@ -148,20 +148,20 @@ app.get('/question6/login', async function (req, res) {
         algorithms: "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
     };
     let token = await getFromTable(email)
-    if (token) {
+    if (token !=="") {
         let tokenValue = token[0]['TOKEN']
         jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
             if (err) {
-                if (data.data.password === password) {
-                    res.json({ "result": err, data, password })
-                }else{
-                    res.json({ "result": 'email or password wrong',password })
-                }
+                res.json({ "result": err, data })
             } else {
-                res.json({ "result": 'good', data })
+                if (data.data.password === password) {
+                    res.json({ "result": err, data })
+                }else{
+                    res.json({ "result": 'email or password wrong',password, })
+                }
             }
         })
-    } else if(token==""){
+    } else {
         res.json({ result: 'email or password wrong' })
     }
 })
