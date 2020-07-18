@@ -130,8 +130,10 @@ const getFromTable = (email) => {
                 function (err, results) {
                     if (err) {
                         reject(err);
-                    } else {
+                    } else if(results!==""){
                         resolve(results)
+                    }else if(results===""){
+                        resolve("email does not exist")
                     }
                 }
             )
@@ -150,7 +152,7 @@ app.get('/question6/login', async function (req, res) {
     let token = await getFromTable(email)
 
 
-    if (token) {
+    if (token !=="email does not exist") {
         let tokenValue = token[0]['TOKEN']
         jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
             if (err) {
@@ -163,7 +165,7 @@ app.get('/question6/login', async function (req, res) {
                 }
             }
         })
-    } else if (token === undefined) {
+    } else {
         res.json({ result: 'email or password wrong' })
     }
 })
