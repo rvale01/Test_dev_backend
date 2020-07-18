@@ -64,10 +64,8 @@ const checkEmailInDB = (email) => {
                 function (err, results) {
                     if (err) {
                         reject(err);
-                    } else if(results.length>0){
-                        resolve(results)
-                    }else {
-                        resolve("empty")
+                    } else if (results.length > 0) {
+                        resolve("exists")
                     }
                 }
             )
@@ -111,20 +109,19 @@ app.post('/question5/login', async function (req, res) {
         password: password,
         email: email
     }
-    
+
     let checking = await checkEmailInDB(email)
-    res.json({ result: 'email exists', checking });
-    // if (checking === undefined) {
-    //     let token = jwt.sign({ data }, privateKEY, signOptions)
-    //     if (token) {
-    //         let result = insertIntoTable(name, email, token)
-    //         res.json({ result: result });
-    //     } else {
-    //         res.json({ result: 'call failed!', url: req.url });
-    //     }
-    // } else {
-    //     res.json({ result: 'email exists', checking });
-    // }
+    if (checking === "exists") {
+        res.json({ result: 'email exists', checking });
+    } else {
+        let token = jwt.sign({ data }, privateKEY, signOptions)
+        if (token) {
+            let result = insertIntoTable(name, email, token)
+            res.json({ result: result });
+        } else {
+            res.json({ result: 'call failed!', url: req.url });
+        }
+    }
 })
 
 const getFromTable = (email) => {
@@ -136,7 +133,10 @@ const getFromTable = (email) => {
                 function (err, results) {
                     if (err) {
                         reject(err);
-                    } else {
+                    } else if (results.length > 0) {
+                        resolve("not exists")
+                    }
+                    else {
                         resolve(results)
                     }
                 }
@@ -156,7 +156,12 @@ app.get('/question6/login', async function (req, res) {
     let token = await getFromTable(email)
 
 
-    if (token !== undefined) {
+    if (token === 'not exists') {
+
+        res.json({ result: 'email does not exist' })
+
+    } else {
+        
         let tokenValue = token[0]['TOKEN']
         jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
             if (err) {
@@ -169,8 +174,6 @@ app.get('/question6/login', async function (req, res) {
                 }
             }
         })
-    } else {
-        res.json({ result: 'email does not exist' })
     }
 })
 
