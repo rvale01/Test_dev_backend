@@ -110,7 +110,7 @@ const getFromTable = (email) => {
 app.get('/question6/login', function async(req, res) {
     // connect to db, check for email, get token
     const { password, email } = req.body
-    let token = await getFromTable(email)
+    const token = await getFromTable(email)
     if(token){
         jwt.verify(token, password, function (err, data) {
             if (err) {
