@@ -87,12 +87,12 @@ app.post('/question5/login', function (req, res) {
         password:password,
         email:email
     }
-    const token = jwt.sign(data, privateKEY, signOptions)
+    var token = jwt.sign(data, privateKEY, signOptions)
     // if (token) {
         // let result = insertIntoTable(name, email, token)
-        res.json({ result: "success" });
+        res.json({ result: token });
     // } else {
-        res.json({ result: 'call failed!', url: req.url });
+        // res.json({ result: 'call failed!', url: req.url });
     // }
 })
 
