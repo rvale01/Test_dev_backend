@@ -118,15 +118,10 @@ app.post('/question5/login', async function (req, res) {
     } else if (checking === "not exist") {
         let token = jwt.sign({ data }, privateKEY, signOptions)
         if (token) {
-            // res.json({ result: 'call ok!' });
             insertIntoTable(name, email, token)
                 .then((result) => {
                     res.json({ result: result });
                 })
-                .catch((err)=>{
-                    res.json({"ops":err})
-                })
-            // res.json({ result: "test" });
         } else {
             res.json({ "result": result });
         }
@@ -143,10 +138,7 @@ const getFromTable = (email) => {
                     if (err) {
                         reject(err);
                     } else if (results.length > 0) {
-                        resolve("not exists")
-                    }
-                    else {
-                        resolve(results)
+                        resolve("exists")
                     }
                 }
             )
