@@ -64,7 +64,7 @@ const checkEmailInDB = (email) => {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve(test)
+                        resolve(test, fields)
                     }
                 }
             )
