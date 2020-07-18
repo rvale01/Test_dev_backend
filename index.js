@@ -12,8 +12,8 @@ dotenv.config();
 process.env.TOKEN_SECRET;
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
-var privateKEY  = fs.readFileSync('./private.key', 'utf8');
-var publicKEY  = fs.readFileSync('./public.key', 'utf8');
+var privateKEY = fs.readFileSync('./private.key', 'utf8');
+var publicKEY = fs.readFileSync('./public.key', 'utf8');
 // if (process.env.JAWSDB_URL) {
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
@@ -52,6 +52,24 @@ app.use(function (req, res, next) {
 });
 
 
+const checkEmailInDB = (email) => {
+    return new Promise(
+        (resolve, reject) => {
+            mysqlPool.query(`
+            SELECT email FROM login WHERE email = :email
+            `, { email },
+                function (err, fields) {
+                    if (fields) {
+                        reject(err);
+                    } else {
+                        resolve(fields)
+                    }
+                }
+            )
+        }
+    )
+
+}
 
 const insertIntoTable = (name, email, token) => {
     return new Promise(
@@ -80,21 +98,26 @@ const insertIntoTable = (name, email, token) => {
 app.post('/question5/login', function (req, res) {
     console.log('works')
     var signOptions = {
-        algorithm:  "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
-       };
-       
+        algorithm: "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
+    };
+
     const { name, password, email } = req.body;
     const data = {
-        name:name,
-        password:password,
-        email:email
+        name: name,
+        password: password,
+        email: email
     }
-     let token = jwt.sign({data}, privateKEY, signOptions)
-    if (token) {
-        let result = insertIntoTable(name, email, token)
-        res.json({ result: result });
+    let checking = checkEmailInDB(email)
+    if (checking) {
+        res.json({ result: 'email exists' });
     } else {
-        res.json({ result: 'call failed!', url: req.url });
+        let token = jwt.sign({ data }, privateKEY, signOptions)
+        if (token) {
+            let result = insertIntoTable(name, email, token)
+            res.json({ result: result });
+        } else {
+            res.json({ result: 'call failed!', url: req.url });
+        }
     }
 })
 
@@ -103,8 +126,8 @@ const getFromTable = (email) => {
         (resolve, reject) => {
             mysqlPool.query(`
             SELECT TOKEN FROM login WHERE email = :email
-            `, { email},
-                function (err, results, fields) {
+            `, { email },
+                function (err, results) {
                     if (err) {
                         reject(err);
                     } else {
@@ -121,17 +144,20 @@ const getFromTable = (email) => {
 app.get('/question6/login', async function (req, res) {
     // connect to db, check for email, get token
     const { password, email } = req.body
+    var signOptions = {
+        algorithms: "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
+    };
     let token = await getFromTable(email)
-    if(token){
-        jwt.verify(token[0]['TOKEN'], password, function (err, data) {
+    if (token) {
+        jwt.verify(token, publicKEY, signOptions, function (err, data) {
             if (err) {
-                res.json({"result":err, token})
+                res.json({ "result": err, token })
             } else {
-                res.json({"result":'good'})
+                res.json({ "result": 'good' })
             }
         })
-    }else{
-        res.json({result:'email or password wrong'})
+    } else {
+        res.json({ result: 'email or password wrong' })
     }
 })
 
