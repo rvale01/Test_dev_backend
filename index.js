@@ -13,6 +13,7 @@ process.env.TOKEN_SECRET;
 const port = process.env.PORT || 3000;
 
 var bodyParser = require('body-parser');
+const { isUndefined } = require('util');
 
 var privateKEY = fs.readFileSync('./private.key', 'utf8');
 var publicKEY = fs.readFileSync('./public.key', 'utf8');
@@ -63,7 +64,9 @@ const checkEmailInDB = (email) => {
                 function (err, results) {
                     if (err) {
                         reject(err);
-                    } else {
+                    } else if(isUndefined(results)){
+                        resolve(results)
+                    }else {
                         resolve(results)
                     }
                 }
