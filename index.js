@@ -11,7 +11,8 @@ dotenv.config();
 // access config var
 process.env.TOKEN_SECRET;
 const port = process.env.PORT || 3000;
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+const { isUndefined } = require('util');
 var privateKEY = fs.readFileSync('./private.key', 'utf8');
 var publicKEY = fs.readFileSync('./public.key', 'utf8');
 // if (process.env.JAWSDB_URL) {
@@ -132,7 +133,7 @@ const getFromTable = (email) => {
                         reject(err);
                     } else {
                         resolve(results)
-                    } 
+                    }
                 }
             )
         }
@@ -150,8 +151,8 @@ app.get('/question6/login', async function (req, res) {
     let token = await getFromTable(email)
 
     res.json({ "res": token })
-    if(token===""){
-        res.json({"res2":"nope"})
+    if (isUndefined(token)) {
+        res.json({ "res2": "nope" })
     }
     // if (token !=="email does not exist") {
     //     let tokenValue = token[0]['TOKEN']
