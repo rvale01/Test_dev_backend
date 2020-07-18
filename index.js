@@ -150,28 +150,23 @@ app.get('/question6/login', async function (req, res) {
     };
     let token = await getFromTable(email)
 
-    // res.json({ "res": token })
-    if (token === undefined) {
-        res.json({ "res2": "nope", token })
+
+    if (token ===undefined) {
+        let tokenValue = token[0]['TOKEN']
+        jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
+            if (err) {
+                res.json({ "result": err, data })
+            } else {
+                if (data.data.password === password) {
+                    res.json({ "result": "good", data })
+                } else {
+                    res.json({ "result": 'email or password wrong', password, })
+                }
+            }
+        })
     } else {
-        res.json({ "res": "ok", token })
+        res.json({ result: 'email does not exist' })
     }
-    // if (token !=="email does not exist") {
-    //     let tokenValue = token[0]['TOKEN']
-    //     jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
-    //         if (err) {
-    //             res.json({ "result": err, data })
-    //         } else {
-    //             if (data.data.password === password) {
-    //                 res.json({ "result": "good", data })
-    //             } else {
-    //                 res.json({ "result": 'email or password wrong', password, })
-    //             }
-    //         }
-    //     })
-    // } else if (token ==="email does not exist"){
-    //     res.json({ result: 'email or password wrong' })
-    // }
 })
 
 
