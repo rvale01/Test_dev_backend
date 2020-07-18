@@ -6,7 +6,7 @@ const app = express()
 // var mysql = require("mysql");
 // var connection;
 
-// const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
 // let privateKEY = fs.readFileSync('./private.key', 'utf8');
 // let publicKEY = fs.readFileSync('./public.key', 'utf8');
