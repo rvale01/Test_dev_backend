@@ -123,7 +123,7 @@ app.post('/question5/login', async function (req, res) {
                     res.json({ result: result });
                 })
         } else {
-            res.json({ "result": result });
+            res.json({ "result": "problem with token" });
         }
     }
 })
@@ -154,13 +154,14 @@ const getFromTable = (email) => {
 app.get('/question6/login', async function (req, res) {
     // connect to db, check for email, get token
     const { password, email } = req.body
+
     var signOptions = {
         algorithms: "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
     };
     let token = await getFromTable(email)
 
     if (token === 'not exists') {
-        res.json({ result: 'email does not exist' })
+        res.json({ result: 'email does not exist', email, token })
     } else {
 
         let tokenValue = token[0]['TOKEN']
