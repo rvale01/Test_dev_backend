@@ -1,7 +1,7 @@
 var express = require('express');
 var jwt = require('jsonwebtoken')
 const app = express()
-const fs = require('fs');
+
 var mysql = require("mysql");
 var connection;
 
@@ -85,14 +85,14 @@ app.post('/question5/login', function (req, res) {
        
     const { name, password, email } = req.body;
     const body = req.body
-    const token = jwt.sign(body, privateKEY, signOptions)
+    // const token = jwt.sign(body, privateKEY, )
 
-    if (token) {
-        let result = insertIntoTable(name, email, token)
-        res.json({ result: "success",result });
-    } else {
-        res.json({ result: 'call failed!', url: req.url });
-    }
+    // if (token) {
+        // let result = insertIntoTable(name, email, token)
+        res.json({ result: "success" });
+    // } else {
+        // res.json({ result: 'call failed!', url: req.url });
+    // }
 })
 
 const getFromTable = (email) => {
