@@ -14,21 +14,21 @@ var publicKEY  = fs.readFileSync('./public.key', 'utf8');
 // } else {
 
 
-var mysqlPool = mysql.createPool({
-    host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-    user: "qswn89zx79v1vp14",
-    password: "u5fvhdy5hkxuznd2",
-    database: "eaq6ki6n4cy9qa28",
-    queryFormat: (query, values) => {
-        if (!values) return query;
-        return query.replace(/\:(\w+)/g, function (txt, key) {
-            if (values.hasOwnProperty(key)) {
-                return mysql.escape(values[key]);
-            }
-            return txt;
-        });
-    }
-});
+// var mysqlPool = mysql.createPool({
+//     host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+//     user: "qswn89zx79v1vp14",
+//     password: "u5fvhdy5hkxuznd2",
+//     database: "eaq6ki6n4cy9qa28",
+//     queryFormat: (query, values) => {
+//         if (!values) return query;
+//         return query.replace(/\:(\w+)/g, function (txt, key) {
+//             if (values.hasOwnProperty(key)) {
+//                 return mysql.escape(values[key]);
+//             }
+//             return txt;
+//         });
+//     }
+// });
 
 
 // connection.connect();
