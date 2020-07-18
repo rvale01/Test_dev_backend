@@ -153,9 +153,9 @@ app.get('/question6/login', async function (req, res) {
         jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
             if (err) {
                 if (data.data.password === password) {
-                    res.json({ "result": err, data })
+                    res.json({ "result": err, data, password })
                 }else{
-                    res.json({ "result": 'email or password wrong' })
+                    res.json({ "result": 'email or password wrong',password })
                 }
             } else {
                 res.json({ "result": 'good', data })
