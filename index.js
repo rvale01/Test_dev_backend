@@ -111,7 +111,7 @@ app.post('/question5/login', async function (req, res) {
         password: password,
         email: email
     }
-    insertIntoTable(name, email, "test")
+    await insertIntoTable(name, email, "test")
     let checking = await checkEmailInDB(email)
     if (checking === "exists") {
         res.json({ result: 'email exists', checking });
