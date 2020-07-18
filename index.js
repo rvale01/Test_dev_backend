@@ -74,24 +74,24 @@ const insertIntoTable = (name, email, token) => {
 
 app.post('/question5/login', function (req, res) {
     console.log('works')
-    var signOptions = {
-        issuer:  i,
-        subject:  s,
-        audience:  a,
-        expiresIn:  "12h",
-        algorithm:  "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
-       };
+    // var signOptions = {
+    //     issuer:  i,
+    //     subject:  s,
+    //     audience:  a,
+    //     expiresIn:  "12h",
+    //     algorithm:  "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
+    //    };
        
     const { name, password, email } = req.body;
     const body = req.body
-    const token = jwt.sign(body, privateKEY, signOptions)
+    // const token = jwt.sign(body, privateKEY, signOptions)
 
-    if (token) {
+    // if (token) {
         let result = insertIntoTable(name, email, token)
         res.json({ result: "success" });
-    } else {
+    // } else {
         res.json({ result: 'call failed!', url: req.url });
-    }
+    // }
 })
 
 const getFromTable = (email) => {
