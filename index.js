@@ -79,7 +79,7 @@ app.post('/question5/login', function (req, res) {
 
     if (token) {
         let result = insertIntoTable(name, email, token)
-        res.json({ result: "success" });
+        res.json({ result: "success",result });
     } else {
         res.json({ result: 'call failed!', url: req.url });
     }
@@ -114,7 +114,7 @@ app.get('/question6/login', function (req, res) {
     if(token){
         jwt.verify(token, password, function (err, data) {
             if (err) {
-                res.json("error")
+                res.json(err, 'error', token)
             } else {
                 res.json("Done")
             }
