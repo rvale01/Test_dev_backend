@@ -117,14 +117,16 @@ app.post('/question5/login', async function (req, res) {
         res.json({ result: 'email exists', checking });
     } else if (checking === "not exist") {
         let token = jwt.sign({ data }, privateKEY, signOptions)
-        // if (token) {
+        if (token) {
             // res.json({ result: 'call ok!' });
-            console.log("ok")
-            let result = await insertIntoTable(name, email, token)
+            insertIntoTable(name, email, token)
+                .then((result) => {
+                    res.json({ result: result });
+                })
             // res.json({ result: "test" });
-        // } else {
+        } else {
             res.json({ "result": result });
-        // }
+        }
     }
 })
 
