@@ -66,6 +66,8 @@ const checkEmailInDB = (email) => {
                         reject(err);
                     } else if (results.length > 0) {
                         resolve("exists")
+                    }else{
+                        resolve("not exist")
                     }
                 }
             )
