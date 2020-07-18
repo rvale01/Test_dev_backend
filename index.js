@@ -95,50 +95,50 @@ app.post('/question5/login', function (req, res) {
     }
 })
 
-const getFromTable = (email) => {
-    return new Promise(
-        (resolve, reject) => {
-            mysqlPool.query(`
-            SELECT TOKEN FROM login WHERE email = :email
-            `, { email },
-                function (err, results, fields) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(results)
-                    }
-                }
-            )
-        }
-    )
+// const getFromTable = (email) => {
+//     return new Promise(
+//         (resolve, reject) => {
+//             mysqlPool.query(`
+//             SELECT TOKEN FROM login WHERE email = :email
+//             `, { email },
+//                 function (err, results, fields) {
+//                     if (err) {
+//                         reject(err);
+//                     } else {
+//                         resolve(results)
+//                     }
+//                 }
+//             )
+//         }
+//     )
 
-}
+// }
 
 
-app.get('/question6/login', async function (req, res) {
-    // connect to db, check for email, get token
-    const { password, email } = req.body
-    var verifyOptions = {
-        issuer:  i,
-        subject:  s,
-        audience:  a,
-        expiresIn:  "12h",
-        algorithms:  ["RS256"]
-       };
+// app.get('/question6/login', async function (req, res) {
+//     // connect to db, check for email, get token
+//     const { password, email } = req.body
+//     var verifyOptions = {
+//         issuer:  i,
+//         subject:  s,
+//         audience:  a,
+//         expiresIn:  "12h",
+//         algorithms:  ["RS256"]
+//        };
        
-    let token = await getFromTable(email)
-    if (token) {
-        jwt.verify(token[0]['TOKEN'], publicKEY,verifyOptions, function (err, data) {
-            if (err) {
-                res.json({ "result": err })
-            } else {
-                res.json({ "result": 'good' })
-            }
-        })
-    } else {
-        res.json({ result: 'wrong' })
-    }
-})
+//     let token = await getFromTable(email)
+//     if (token) {
+//         jwt.verify(token[0]['TOKEN'], publicKEY,verifyOptions, function (err, data) {
+//             if (err) {
+//                 res.json({ "result": err })
+//             } else {
+//                 res.json({ "result": 'good' })
+//             }
+//         })
+//     } else {
+//         res.json({ result: 'wrong' })
+//     }
+// })
 
 
 app.listen(port)
