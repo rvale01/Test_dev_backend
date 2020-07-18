@@ -120,10 +120,10 @@ app.post('/question5/login', async function (req, res) {
         // if (token) {
             // res.json({ result: 'call ok!' });
             console.log("ok")
-            // let result = await insertIntoTable(name, email, token)
+            let result = await insertIntoTable(name, email, token)
             // res.json({ result: "test" });
         // } else {
-            res.json({ result: token });
+            res.json({ "result": result });
         // }
     }
 })
