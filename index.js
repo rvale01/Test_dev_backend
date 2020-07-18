@@ -63,8 +63,8 @@ const checkEmailInDB = (email) => {
                 function (err, fields) {
                     if (err) {
                         reject(err);
-                    } else {
-                        resolve(fields)
+                    } else if(isEmptyObject(fields)) {
+                        resolve('empty')
                     }
                 }
             )
@@ -110,7 +110,7 @@ app.post('/question5/login', function (req, res) {
         email: email
     }
     let checking = checkEmailInDB(email)
-    if (checking == undefined) {
+    if (checking === undefined) {
         let token = jwt.sign({ data }, privateKEY, signOptions)
         if (token) {
             let result = insertIntoTable(name, email, token)
@@ -152,7 +152,7 @@ app.get('/question6/login', async function (req, res) {
     let token = await getFromTable(email)
 
 
-    if (token === undefined) {
+    if (token !== undefined) {
         let tokenValue = token[0]['TOKEN']
         jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
             if (err) {
