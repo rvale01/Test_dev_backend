@@ -1,5 +1,5 @@
 var express = require('express');
-const fs   = require('fs');
+const fs = require('fs');
 var jwt = require('jsonwebtoken')
 const app = express()
 
@@ -8,8 +8,8 @@ var connection;
 
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
-let privateKEY  = fs.readFileSync('./private.key', 'utf8');
-let publicKEY  = fs.readFileSync('./public.key', 'utf8');
+let privateKEY = fs.readFileSync('./private.key', 'utf8');
+let publicKEY = fs.readFileSync('./public.key', 'utf8');
 // if (process.env.JAWSDB_URL) {
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
@@ -77,11 +77,11 @@ const insertIntoTable = (name, email, token) => {
 app.post('/question5/login', function (req, res) {
     console.log('works')
     const { name, password, email } = req.body;
-    const token = jwt.sign({ email, password, name },privateKEY)
+    const token = jwt.sign({ email, password, name }, privateKEY, { algorithm: "RS256" })
 
     if (token) {
         let result = insertIntoTable(name, email, token)
-        res.json({ result: "success",result });
+        res.json({ result: "success", result });
     } else {
         res.json({ result: 'call failed!', url: req.url });
     }
@@ -92,7 +92,7 @@ const getFromTable = (email) => {
         (resolve, reject) => {
             mysqlPool.query(`
             SELECT TOKEN FROM login WHERE email = :email
-            `, { email},
+            `, { email },
                 function (err, results, fields) {
                     if (err) {
                         reject(err);
@@ -111,16 +111,16 @@ app.get('/question6/login', async function (req, res) {
     // connect to db, check for email, get token
     const { password, email } = req.body
     let token = await getFromTable(email)
-    if(token){
-        jwt.verify(token[0]['TOKEN'], publicKEY, function (err, data) {
+    if (token) {
+        jwt.verify(token[0]['TOKEN'], publicKEY, { algorithm: "RS256" }, function (err, data) {
             if (err) {
-                res.json({"result":err})
+                res.json({ "result": err })
             } else {
-                res.json({"result":'good'})
+                res.json({ "result": 'good' })
             }
         })
-    }else{
-        res.json({result:'email or password wrong'})
+    } else {
+        res.json({ result: 'email or password wrong' })
     }
 })
 
