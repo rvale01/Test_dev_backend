@@ -75,14 +75,14 @@ const insertIntoTable = (name, email, token) => {
 
 
 app.post('/question5/login', function (req, res) {
-    var signOptions = {
-        issuer:  i,
-        subject:  s,
-        audience:  a,
-        expiresIn:  "12h",
-        algorithm:  "RS256"
-       };
-    console.log('works')
+    // var signOptions = {
+    //     issuer:  i,
+    //     subject:  s,
+    //     audience:  a,
+    //     expiresIn:  "12h",
+    //     algorithm:  "RS256"
+    //    };
+    // console.log('works')
     const { name, password, email } = req.body;
     // const token = jwt.sign({ email, password, name }, privateKEY,signOptions)
     const token = jwt.sign({ email }, password, name)
