@@ -1,36 +1,34 @@
 var express = require('express');
-// const fs = require('fs');
 var jwt = require('jsonwebtoken')
 const app = express()
 
-// var mysql = require("mysql");
-// var connection;
+var mysql = require("mysql");
+var connection;
 
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
-// let privateKEY = fs.readFileSync('./private.key', 'utf8');
-// let publicKEY = fs.readFileSync('./public.key', 'utf8');
+
 // if (process.env.JAWSDB_URL) {
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
 
 
-// var mysqlPool = mysql.createPool({
-//     connectionLimit: 10,
-//     host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-//     user: "qswn89zx79v1vp14",
-//     password: "u5fvhdy5hkxuznd2",
-//     database: "eaq6ki6n4cy9qa28",
-//     queryFormat: (query, values) => {
-//         if (!values) return query;
-//         return query.replace(/\:(\w+)/g, function (txt, key) {
-//             if (values.hasOwnProperty(key)) {
-//                 return mysql.escape(values[key]);
-//             }
-//             return txt;
-//         });
-//     }
-// });
+var mysqlPool = mysql.createPool({
+    connectionLimit: 10,
+    host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+    user: "qswn89zx79v1vp14",
+    password: "u5fvhdy5hkxuznd2",
+    database: "eaq6ki6n4cy9qa28",
+    queryFormat: (query, values) => {
+        if (!values) return query;
+        return query.replace(/\:(\w+)/g, function (txt, key) {
+            if (values.hasOwnProperty(key)) {
+                return mysql.escape(values[key]);
+            }
+            return txt;
+        });
+    }
+});
 // }
 
 // connection.connect();
@@ -75,70 +73,54 @@ const insertIntoTable = (name, email, token) => {
 
 
 app.post('/question5/login', function (req, res) {
-    // var signOptions = {
-    //     issuer:  i,
-    //     subject:  s,
-    //     audience:  a,
-    //     expiresIn:  "12h",
-    //     algorithm:  "RS256"
-    //    };
-    // console.log('works')
+    console.log('works')
     const { name, password, email } = req.body;
-    // const token = jwt.sign({ email, password, name }, privateKEY,signOptions)
-    const token = jwt.sign( email , password)
+    const token = jwt.sign({ email }, password)
 
     if (token) {
-        // let result = insertIntoTable(name, email, token)
-        res.json({ result: "success", result });
+        let result = insertIntoTable(name, email, token)
+        res.json({ result: "success",result });
     } else {
         res.json({ result: 'call failed!', url: req.url });
     }
 })
 
-// const getFromTable = (email) => {
-//     return new Promise(
-//         (resolve, reject) => {
-//             mysqlPool.query(`
-//             SELECT TOKEN FROM login WHERE email = :email
-//             `, { email },
-//                 function (err, results, fields) {
-//                     if (err) {
-//                         reject(err);
-//                     } else {
-//                         resolve(results)
-//                     }
-//                 }
-//             )
-//         }
-//     )
+const getFromTable = (email) => {
+    return new Promise(
+        (resolve, reject) => {
+            mysqlPool.query(`
+            SELECT TOKEN FROM login WHERE email = :email
+            `, { email},
+                function (err, results, fields) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(results)
+                    }
+                }
+            )
+        }
+    )
 
-// }
+}
 
 
-// app.get('/question6/login', async function (req, res) {
-//     // connect to db, check for email, get token
-//     const { password, email } = req.body
-//     var verifyOptions = {
-//         issuer:  i,
-//         subject:  s,
-//         audience:  a,
-//         expiresIn:  "12h",
-//         algorithms:  ["RS256"]
-//        };
-       
-//     let token = await getFromTable(email)
-//     if (token) {
-//         jwt.verify(token[0]['TOKEN'], publicKEY,verifyOptions, function (err, data) {
-//             if (err) {
-//                 res.json({ "result": err })
-//             } else {
-//                 res.json({ "result": 'good' })
-//             }
-//         })
-//     } else {
-//         res.json({ result: 'wrong' })
-//     }
-// })
+app.get('/question6/login', async function (req, res) {
+    // connect to db, check for email, get token
+    const { password, email } = req.body
+    let token = await getFromTable(email)
+    if(token){
+        jwt.verify(token[0]['TOKEN'], password, function (err, data) {
+            if (err) {
+                res.json(err)
+            } else {
+                res.json(token)
+            }
+        })
+    }else{
+        res.json({result:'email or password wrong'})
+    }
+})
 
 
 app.listen(port)
