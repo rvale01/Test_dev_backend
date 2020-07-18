@@ -7,7 +7,8 @@ var connection;
 
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
-
+var privateKEY  = fs.readFileSync('./private.key', 'utf8');
+var publicKEY  = fs.readFileSync('./public.key', 'utf8');
 // if (process.env.JAWSDB_URL) {
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
@@ -74,8 +75,17 @@ const insertIntoTable = (name, email, token) => {
 
 app.post('/question5/login', function (req, res) {
     console.log('works')
+    var signOptions = {
+        issuer:  i,
+        subject:  s,
+        audience:  a,
+        expiresIn:  "12h",
+        algorithm:  "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
+       };
+       
     const { name, password, email } = req.body;
-    const token = jwt.sign({ email }, password)
+    const body = req.body
+    const token = jwt.sign(body, privateKEY, signOptions)
 
     if (token) {
         let result = insertIntoTable(name, email, token)
@@ -112,9 +122,9 @@ app.get('/question6/login', async function (req, res) {
     if(token){
         jwt.verify(token[0]['TOKEN'], password, function (err, data) {
             if (err) {
-                res.json(err)
+                res.json({"result":err})
             } else {
-                res.json(token)
+                res.json({"result":'good'})
             }
         })
     }else{
