@@ -82,8 +82,8 @@ app.post('/question5/login', function (req, res) {
     //    };
        
     const { name, password, email } = req.body;
-    // const body = req.body
-    // const token = jwt.sign(body, privateKEY, signOptions)
+    const body = req.body
+    const token = jwt.sign(body, privateKEY, signOptions)
 
     // if (token) {
         // let result = insertIntoTable(name, email, token)
