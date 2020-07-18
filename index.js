@@ -140,6 +140,9 @@ const getFromTable = (email) => {
                     } else if (results.length > 0) {
                         resolve("exists")
                     }
+                    else {
+                        resolve("not exist")
+                    }
                 }
             )
         }
@@ -156,7 +159,6 @@ app.get('/question6/login', async function (req, res) {
     };
     let token = await getFromTable(email)
 
-    res.json({ token })
     if (token === 'not exists') {
         res.json({ result: 'email does not exist' })
     } else {
