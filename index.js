@@ -1,15 +1,6 @@
 var express = require('express');
 var jwt = require('jsonwebtoken')
-var mysql = require("mysql");
-// var connection;
-// if (process.env.JAWSDB_URL) {
-//     connection = mysql.createConnection(process.env.JAWSDB_URL);
-// } else {
-//     console.log('error')
-// }
-// connection.connect();
 const app = express()
-
 // dotenv.config();
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
@@ -30,37 +21,13 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     next()
 });
-
-// const insertIntoTable = (token, username, password, name) => {
-//     return new Promise(
-//         (resolve, reject) => {
-//             mysqlPool.query(`
-//         INSERT INTO login (token, username, password, name)
-//         VALUES
-//         (:token, :username, :password, :name);
-//         `, {
-//                 token, username, password, name
-//             },
-//                 function (err, fields) {
-//                     if (err) {
-//                         reject(err);
-//                     } else {
-//                         console.log("good it works")
-//                     }
-//                 }
-//             )
-//         }
-//     )
-// }
-
 app.post('/question5/login', function (req, res) {
     console.log('works')
-    const { username, password, name } = req.body;
-    const token = jwt.sign({ username }, password)
+    const { username, password } = req.body;
+    const token = jwt.sign({ username }, password )
 
     if (token) {
-        res.json({ success: 'post call succeed!', token });
-        // insertIntoTable(token, username, password, name)
+        res.json({ success: 'post call succeed!',token });
     } else {
         res.json({ error: 'call failed!', url: req.url, result });
     }
