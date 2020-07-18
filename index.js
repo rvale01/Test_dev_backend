@@ -130,9 +130,9 @@ const getFromTable = (email) => {
                 function (err, results) {
                     if (err) {
                         reject(err);
-                    } else if (results !== "") {
+                    } else if (results !== undefined) {
                         resolve(results)
-                    } else if (results === "") {
+                    } else if (results === undefined) {
                         resolve("email does not exist")
                     }
                 }
@@ -151,8 +151,8 @@ app.get('/question6/login', async function (req, res) {
     };
     let token = await getFromTable(email)
 
-    res.json({ "res": token })
-    if(token===undefined){
+    res.json({ "res": token[0] })
+    if(token[0]===undefined){
         res.json({"res2":"nope"})
     }
     // if (token !=="email does not exist") {
