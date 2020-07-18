@@ -110,17 +110,18 @@ app.post('/question5/login', function (req, res) {
         email: email
     }
     let checking = checkEmailInDB(email)
-    if (checking === undefined) {
-        let token = jwt.sign({ data }, privateKEY, signOptions)
-        if (token) {
-            let result = insertIntoTable(name, email, token)
-            res.json({ result: result });
-        } else {
-            res.json({ result: 'call failed!', url: req.url });
-        }
-    } else {
-        res.json({ result: 'email exists', checking });
-    }
+    res.json(checking)
+    // if (checking === undefined) {
+    //     let token = jwt.sign({ data }, privateKEY, signOptions)
+    //     if (token) {
+    //         let result = insertIntoTable(name, email, token)
+    //         res.json({ result: result });
+    //     } else {
+    //         res.json({ result: 'call failed!', url: req.url });
+    //     }
+    // } else {
+    //     res.json({ result: 'email exists', checking });
+    // }
 })
 
 const getFromTable = (email) => {
