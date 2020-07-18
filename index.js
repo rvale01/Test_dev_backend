@@ -114,9 +114,9 @@ app.get('/question6/login', function (req, res) {
     if(token){
         jwt.verify(token, password, function (err, data) {
             if (err) {
-                res.json(err, 'error', token)
+                res.json(token)
             } else {
-                res.json("Done")
+                res.json(token)
             }
         })
     }else{
