@@ -118,7 +118,7 @@ app.post('/question5/login', async function (req, res) {
     } else {
         let token = jwt.sign({ data }, privateKEY, signOptions)
         if (token) {
-            let result = insertIntoTable(name, email, token)
+            let result = await insertIntoTable(name, email, token)
             res.json({ result: result });
         } else {
             res.json({ result: 'call failed!', url: req.url });
