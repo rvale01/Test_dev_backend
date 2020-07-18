@@ -90,9 +90,7 @@ const getFromTable = (email) => {
         (resolve, reject) => {
             mysqlPool.query(`
             SELECT TOKEN FROM login WHERE email = :email
-            `, {
-                name, email, token
-            },
+            `, { email},
                 function (err, results, fields) {
                     if (err) {
                         reject(err);
