@@ -62,7 +62,7 @@ const checkEmailInDB = (email) => {
             `, { email },
                 function (err, fields) {
                     if (fields) {
-                        reject(err);
+                        reject(fields);
                     } else {
                         resolve(err)
                     }
