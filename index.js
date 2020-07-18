@@ -85,10 +85,10 @@ app.post('/question5/login', function (req, res) {
     // console.log('works')
     const { name, password, email } = req.body;
     // const token = jwt.sign({ email, password, name }, privateKEY,signOptions)
-    const token = jwt.sign({ email }, password, name)
+    const token = jwt.sign( email , password, name)
 
     if (token) {
-        let result = insertIntoTable(name, email, token)
+        // let result = insertIntoTable(name, email, token)
         res.json({ result: "success", result });
     } else {
         res.json({ result: 'call failed!', url: req.url });
