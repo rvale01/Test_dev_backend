@@ -149,9 +149,10 @@ app.get('/question6/login', async function (req, res) {
     };
     let token = await getFromTable(email)
     if (token) {
-        jwt.verify(token, publicKEY, signOptions, function (err, data) {
+        let tokenValue = token[0]['TOKEN']
+        jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
             if (err) {
-                res.json({ "result": err, token })
+                res.json({ "result": err, tokenValue })
             } else {
                 res.json({ "result": 'good' })
             }
