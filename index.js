@@ -65,6 +65,8 @@ const checkEmailInDB = (email) => {
                         reject(err);
                     } else if(isEmptyObject(fields)) {
                         resolve('empty')
+                    }else {
+                        resolve("not work")
                     }
                 }
             )
