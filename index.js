@@ -64,7 +64,7 @@ const checkEmailInDB = (email) => {
                 function (err, results) {
                     if (err) {
                         reject(err);
-                    } else if(isUndefined(results)){
+                    } else if(isEmptyObject(results)){
                         resolve("empty")
                     }else {
                         resolve(results)
