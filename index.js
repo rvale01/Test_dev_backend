@@ -121,7 +121,7 @@ app.post('/question5/login', async function (req, res) {
             // res.json({ result: 'call ok!' });
             insertIntoTable(name, email, token)
                 .then((result) => {
-                    res.json({ result: result });
+                    res.json({ "result": result });
                 })
             // res.json({ result: "test" });
         } else {
