@@ -14,22 +14,22 @@ var publicKEY  = fs.readFileSync('./public.key', 'utf8');
 // } else {
 
 
-var mysqlPool = mysql.createPool({
-    connectionLimit: 10,
-    host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-    user: "qswn89zx79v1vp14",
-    password: "u5fvhdy5hkxuznd2",
-    database: "eaq6ki6n4cy9qa28",
-    queryFormat: (query, values) => {
-        if (!values) return query;
-        return query.replace(/\:(\w+)/g, function (txt, key) {
-            if (values.hasOwnProperty(key)) {
-                return mysql.escape(values[key]);
-            }
-            return txt;
-        });
-    }
-});
+// var mysqlPool = mysql.createPool({
+//     connectionLimit: 10,
+//     host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+//     user: "qswn89zx79v1vp14",
+//     password: "u5fvhdy5hkxuznd2",
+//     database: "eaq6ki6n4cy9qa28",
+//     queryFormat: (query, values) => {
+//         if (!values) return query;
+//         return query.replace(/\:(\w+)/g, function (txt, key) {
+//             if (values.hasOwnProperty(key)) {
+//                 return mysql.escape(values[key]);
+//             }
+//             return txt;
+//         });
+//     }
+// });
 // }
 
 // connection.connect();
@@ -75,16 +75,16 @@ const insertIntoTable = (name, email, token) => {
 
 app.post('/question5/login', function (req, res) {
     console.log('works')
-    var signOptions = {
-        issuer:  i,
-        subject:  s,
-        audience:  a,
-        expiresIn:  "12h",
-        algorithm:  "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
-       };
+    // var signOptions = {
+    //     issuer:  i,
+    //     subject:  s,
+    //     audience:  a,
+    //     expiresIn:  "12h",
+    //     algorithm:  "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
+    //    };
        
-    const { name, password, email } = req.body;
-    const body = req.body
+    // const { name, password, email } = req.body;
+    // const body = req.body
     // const token = jwt.sign(body, privateKEY, )
 
     // if (token) {
