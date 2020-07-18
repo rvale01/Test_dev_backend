@@ -1,18 +1,19 @@
 var express = require('express');
 var jwt = require('jsonwebtoken')
 const app = express()
+
 const fs = require('fs');
 var mysql = require("mysql");
+
 const dotenv = require("dotenv");
-
-
 dotenv.config();
 
 // access config var
 process.env.TOKEN_SECRET;
 const port = process.env.PORT || 3000;
+
 var bodyParser = require('body-parser');
-const { isUndefined } = require('util');
+
 var privateKEY = fs.readFileSync('./private.key', 'utf8');
 var publicKEY = fs.readFileSync('./public.key', 'utf8');
 // if (process.env.JAWSDB_URL) {
@@ -63,7 +64,7 @@ const checkEmailInDB = (email) => {
                     if (fields) {
                         reject(err);
                     } else {
-                        resolve(fields)
+                        resolve(err)
                     }
                 }
             )
@@ -109,7 +110,7 @@ app.post('/question5/login', function (req, res) {
         email: email
     }
     let checking = checkEmailInDB(email)
-    if (checking) {
+    if (checking !==undefined) {
         res.json({ result: 'email exists' });
     } else {
         let token = jwt.sign({ data }, privateKEY, signOptions)
