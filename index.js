@@ -60,11 +60,11 @@ const checkEmailInDB = (email) => {
             mysqlPool.query(`
             SELECT email FROM login WHERE email = :email
             `, { email },
-                function (err, fields) {
+                function (err, fields, test) {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve(fields)
+                        resolve(test)
                     }
                 }
             )
