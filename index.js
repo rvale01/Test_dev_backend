@@ -3,7 +3,6 @@ var jwt = require('jsonwebtoken')
 const app = express()
 const fs = require('fs');
 var mysql = require("mysql");
-var connection;
 
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
@@ -87,7 +86,7 @@ app.post('/question5/login', function (req, res) {
     // const token = jwt.sign(body, privateKEY, signOptions)
 
     // if (token) {
-        let result = insertIntoTable(name, email, token)
+        // let result = insertIntoTable(name, email, token)
         res.json({ result: "success" });
     // } else {
         res.json({ result: 'call failed!', url: req.url });
