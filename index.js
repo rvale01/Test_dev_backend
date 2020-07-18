@@ -83,9 +83,9 @@ app.post('/question5/login', function (req, res) {
        
     const { name, password, email } = req.body;
     const token = jwt.sign({
-        "name":name,
-        "password":password,
-        "email":email
+        name:name,
+        password:password,
+        email:email
     }, privateKEY, signOptions)
 
     // if (token) {
