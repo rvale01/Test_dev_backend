@@ -125,7 +125,7 @@ app.post('/question5/login', async function (req, res) {
                 })
             // res.json({ result: "test" });
         } else {
-            res.json({ "result": result });
+            res.json({ "result": "test" });
         }
     }
 })
