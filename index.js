@@ -151,7 +151,7 @@ app.get('/question6/login', async function (req, res) {
     let token = await getFromTable(email)
 
     res.json({ "res": token })
-    if (isUndefined(token)) {
+    if (token) {
         res.json({ "res2": "nope" })
     }
     // if (token !=="email does not exist") {
