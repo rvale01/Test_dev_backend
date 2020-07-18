@@ -64,7 +64,7 @@ const checkEmailInDB = (email) => {
                 function (err, results) {
                     if (err) {
                         reject(err);
-                    } else if(isEmptyObject(results)){
+                    } else if(result.length<0){
                         resolve("empty")
                     }else {
                         resolve(results)
@@ -101,7 +101,6 @@ const insertIntoTable = (name, email, token) => {
 
 
 app.post('/question5/login', async function (req, res) {
-    console.log('works')
     var signOptions = {
         algorithm: "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
     };
