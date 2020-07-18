@@ -75,9 +75,16 @@ const insertIntoTable = (name, email, token) => {
 
 
 app.post('/question5/login', function (req, res) {
+    var signOptions = {
+        issuer:  i,
+        subject:  s,
+        audience:  a,
+        expiresIn:  "12h",
+        algorithm:  "RS256"
+       };
     console.log('works')
     const { name, password, email } = req.body;
-    const token = jwt.sign({ email, password, name }, privateKEY, { algorithm: "RS256" })
+    const token = jwt.sign({ email, password, name }, privateKEY,signOptions)
 
     if (token) {
         let result = insertIntoTable(name, email, token)
@@ -110,9 +117,17 @@ const getFromTable = (email) => {
 app.get('/question6/login', async function (req, res) {
     // connect to db, check for email, get token
     const { password, email } = req.body
+    var verifyOptions = {
+        issuer:  i,
+        subject:  s,
+        audience:  a,
+        expiresIn:  "12h",
+        algorithms:  ["RS256"]
+       };
+       
     let token = await getFromTable(email)
     if (token) {
-        jwt.verify(token[0]['TOKEN'], publicKEY, { algorithms: [ 'RS256','RS384','RS512','ES256','ES384','ES512' ] }, function (err, data) {
+        jwt.verify(token[0]['TOKEN'], publicKEY,verifyOptions, function (err, data) {
             if (err) {
                 res.json({ "result": err })
             } else {
@@ -120,7 +135,7 @@ app.get('/question6/login', async function (req, res) {
             }
         })
     } else {
-        res.json({ result: 'email or password wrong' })
+        res.json({ result: 'wrong' })
     }
 })
 
