@@ -87,13 +87,13 @@ app.post('/question5/login', function (req, res) {
         algorithm:  "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
        };
        
-    // const { name, password, email } = req.body;
-    // const data = {
-    //     name:name,
-    //     password:password,
-    //     email:email
-    // }
-     let token = jwt.sign({data}, process.env.TOKEN_SECRET)
+    const { name, password, email } = req.body;
+    const data = {
+        name:name,
+        password:password,
+        email:email
+    }
+     let token = jwt.sign(data, process.env.TOKEN_SECRET)
     // if (token) {
         // let result = insertIntoTable(name, email, token)
         res.json({ result: token });
