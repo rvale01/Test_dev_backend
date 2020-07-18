@@ -66,7 +66,7 @@ const checkEmailInDB = (email) => {
                         reject(err);
                     } else if (results.length > 0) {
                         resolve("exists")
-                    }else{
+                    } else {
                         resolve("not exist")
                     }
                 }
@@ -115,13 +115,13 @@ app.post('/question5/login', async function (req, res) {
     let checking = await checkEmailInDB(email)
     if (checking === "exists") {
         res.json({ result: 'email exists', checking });
-    } else {
+    } else if (checking === "not exist") {
         let token = jwt.sign({ data }, privateKEY, signOptions)
         if (token) {
-            let result = await insertIntoTable(name, email, token)
-            res.json({ result: result });
+            // let result = await insertIntoTable(name, email, token)
+            res.json({ result: checking });
         } else {
-            res.json({ result: 'call failed!', url: req.url });
+            res.json({ result: 'call failed!' });
         }
     }
 })
