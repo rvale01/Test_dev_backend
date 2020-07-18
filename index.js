@@ -97,7 +97,7 @@ const insertIntoTable = (name, email, token) => {
 }
 
 
-app.post('/question5/login', function (req, res) {
+app.post('/question5/login', async function (req, res) {
     console.log('works')
     var signOptions = {
         algorithm: "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
@@ -110,7 +110,7 @@ app.post('/question5/login', function (req, res) {
         email: email
     }
     
-    let checking = getFromTable(email)
+    let checking = await getFromTable(email)
     res.json({ result: 'email exists', checking });
     // if (checking === undefined) {
     //     let token = jwt.sign({ data }, privateKEY, signOptions)
