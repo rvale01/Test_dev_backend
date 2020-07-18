@@ -154,7 +154,7 @@ app.get('/question6/login', async function (req, res) {
             if (err) {
                 res.json({ "result": err, data })
             } else {
-                res.json({ "result": 'good' })
+                res.json({ "result": 'good', data  })
             }
         })
     } else {
