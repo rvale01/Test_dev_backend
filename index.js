@@ -1,13 +1,13 @@
 var express = require('express');
 var jwt = require('jsonwebtoken')
 var mysql = require("mysql");
-var connection;
-if (process.env.JAWSDB_URL) {
-    connection = mysql.createConnection(process.env.JAWSDB_URL);
-} else {
-    console.log('error')
-}
-connection.connect();
+// var connection;
+// if (process.env.JAWSDB_URL) {
+//     connection = mysql.createConnection(process.env.JAWSDB_URL);
+// } else {
+//     console.log('error')
+// }
+// connection.connect();
 const app = express()
 
 // dotenv.config();
@@ -31,27 +31,27 @@ app.use(function (req, res, next) {
     next()
 });
 
-const insertIntoTable = (token, username, password, name) => {
-    return new Promise(
-        (resolve, reject) => {
-            mysqlPool.query(`
-        INSERT INTO login (token, username, password, name)
-        VALUES
-        (:token, :username, :password, :name);
-        `, {
-                token, username, password, name
-            },
-                function (err, fields) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        console.log("good it works")
-                    }
-                }
-            )
-        }
-    )
-}
+// const insertIntoTable = (token, username, password, name) => {
+//     return new Promise(
+//         (resolve, reject) => {
+//             mysqlPool.query(`
+//         INSERT INTO login (token, username, password, name)
+//         VALUES
+//         (:token, :username, :password, :name);
+//         `, {
+//                 token, username, password, name
+//             },
+//                 function (err, fields) {
+//                     if (err) {
+//                         reject(err);
+//                     } else {
+//                         console.log("good it works")
+//                     }
+//                 }
+//             )
+//         }
+//     )
+// }
 
 app.post('/question5/login', function (req, res) {
     console.log('works')
@@ -60,7 +60,7 @@ app.post('/question5/login', function (req, res) {
 
     if (token) {
         res.json({ success: 'post call succeed!', token });
-        insertIntoTable(token, username, password, name)
+        // insertIntoTable(token, username, password, name)
     } else {
         res.json({ error: 'call failed!', url: req.url, result });
     }
