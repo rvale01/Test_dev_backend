@@ -1,4 +1,5 @@
 var express = require('express');
+const fs   = require('fs');
 var jwt = require('jsonwebtoken')
 const app = express()
 
@@ -7,8 +8,8 @@ var connection;
 
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
-var privateKEY  = fs.readFileSync('./private.key', 'utf8');
-var publicKEY  = fs.readFileSync('./public.key', 'utf8');
+let privateKEY  = fs.readFileSync('./private.key', 'utf8');
+let publicKEY  = fs.readFileSync('./public.key', 'utf8');
 // if (process.env.JAWSDB_URL) {
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
