@@ -61,10 +61,10 @@ const checkEmailInDB = (email) => {
             SELECT email FROM login WHERE email = :email
             `, { email },
                 function (err, fields) {
-                    if (fields) {
-                        reject(fields);
+                    if (err) {
+                        reject(err);
                     } else {
-                        resolve(err)
+                        resolve(fields)
                     }
                 }
             )
@@ -110,9 +110,7 @@ app.post('/question5/login', function (req, res) {
         email: email
     }
     let checking = checkEmailInDB(email)
-    if (checking === undefined) {
-        res.json({ result: 'email exists', checking });
-    } else {
+    if (checking == undefined) {
         let token = jwt.sign({ data }, privateKEY, signOptions)
         if (token) {
             let result = insertIntoTable(name, email, token)
@@ -120,6 +118,8 @@ app.post('/question5/login', function (req, res) {
         } else {
             res.json({ result: 'call failed!', url: req.url });
         }
+    } else {
+        res.json({ result: 'email exists', checking });
     }
 })
 
