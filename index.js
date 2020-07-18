@@ -1,36 +1,36 @@
 var express = require('express');
-const fs = require('fs');
+// const fs = require('fs');
 var jwt = require('jsonwebtoken')
 const app = express()
 
-var mysql = require("mysql");
-var connection;
+// var mysql = require("mysql");
+// var connection;
 
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
-let privateKEY = fs.readFileSync('./private.key', 'utf8');
-let publicKEY = fs.readFileSync('./public.key', 'utf8');
+// let privateKEY = fs.readFileSync('./private.key', 'utf8');
+// let publicKEY = fs.readFileSync('./public.key', 'utf8');
 // if (process.env.JAWSDB_URL) {
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
 
 
-var mysqlPool = mysql.createPool({
-    connectionLimit: 10,
-    host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-    user: "qswn89zx79v1vp14",
-    password: "u5fvhdy5hkxuznd2",
-    database: "eaq6ki6n4cy9qa28",
-    queryFormat: (query, values) => {
-        if (!values) return query;
-        return query.replace(/\:(\w+)/g, function (txt, key) {
-            if (values.hasOwnProperty(key)) {
-                return mysql.escape(values[key]);
-            }
-            return txt;
-        });
-    }
-});
+// var mysqlPool = mysql.createPool({
+//     connectionLimit: 10,
+//     host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+//     user: "qswn89zx79v1vp14",
+//     password: "u5fvhdy5hkxuznd2",
+//     database: "eaq6ki6n4cy9qa28",
+//     queryFormat: (query, values) => {
+//         if (!values) return query;
+//         return query.replace(/\:(\w+)/g, function (txt, key) {
+//             if (values.hasOwnProperty(key)) {
+//                 return mysql.escape(values[key]);
+//             }
+//             return txt;
+//         });
+//     }
+// });
 // }
 
 // connection.connect();
