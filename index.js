@@ -3,7 +3,13 @@ var jwt = require('jsonwebtoken')
 const app = express()
 const fs = require('fs');
 var mysql = require("mysql");
+const dotenv = require("dotenv");
 
+// get config vars
+dotenv.config();
+
+// access config var
+process.env.TOKEN_SECRET;
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
 var privateKEY  = fs.readFileSync('./private.key', 'utf8');
@@ -87,8 +93,7 @@ app.post('/question5/login', function (req, res) {
     //     password:password,
     //     email:email
     // }
-    let token = require('crypto').randomBytes(64).toString('hex')
-    // var token = jwt.sign(data, privateKEY, signOptions)
+     let token = jwt.sign(data, process.env.TOKEN_SECRET, signOptions)
     // if (token) {
         // let result = insertIntoTable(name, email, token)
         res.json({ result: token });
