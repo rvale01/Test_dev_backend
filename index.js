@@ -8,7 +8,19 @@ var connection;
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
 
+if (process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+    connection = mysql.createConnection({
+        port: 3306,
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "burgers_db"
+    })
+}
 
+connection.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -25,10 +37,10 @@ app.use(function (req, res, next) {
 app.post('/question5/login', function (req, res) {
     console.log('works')
     const { username, password } = req.body;
-    const token = jwt.sign({ username }, password )
+    const token = jwt.sign({ username }, password)
 
     if (token) {
-        res.json({ success: 'post call succeed!',token });
+        res.json({ success: 'post call succeed!', token });
     } else {
         res.json({ error: 'call failed!', url: req.url, result });
     }
