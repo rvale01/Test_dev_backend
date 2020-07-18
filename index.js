@@ -93,7 +93,7 @@ app.post('/question5/login', function (req, res) {
     //     password:password,
     //     email:email
     // }
-     let token = jwt.sign(data, process.env.TOKEN_SECRET)
+     let token = jwt.sign({data}, process.env.TOKEN_SECRET)
     // if (token) {
         // let result = insertIntoTable(name, email, token)
         res.json({ result: token });
