@@ -155,13 +155,11 @@ app.get('/question6/login', async function (req, res) {
     };
     let token = await getFromTable(email)
 
-
+    res.json({ token })
     if (token === 'not exists') {
-
         res.json({ result: 'email does not exist' })
-
     } else {
-        
+
         let tokenValue = token[0]['TOKEN']
         jwt.verify(tokenValue, publicKEY, signOptions, function (err, data) {
             if (err) {
