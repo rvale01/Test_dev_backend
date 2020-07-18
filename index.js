@@ -165,7 +165,7 @@ app.get('/question6/login', async function (req, res) {
                 }
             }
         })
-    } else {
+    } else if (token ==="email does not exist"){
         res.json({ result: 'email or password wrong' })
     }
 })
