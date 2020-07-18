@@ -169,9 +169,9 @@ app.get('/question6/login', async function (req, res) {
                 res.json({ "result": err, data })
             } else {
                 if (data.data.password === password) {
-                    res.json({ "result": "good", data })
+                    res.json({ "result": "good" })
                 } else {
-                    res.json({ "result": 'email or password wrong', password, })
+                    res.json({ "result": 'email or password wrong', })
                 }
             }
         })
