@@ -129,7 +129,7 @@ const getFromTable = (email) => {
             `, { email },
                 function (err, results) {
                     if (err) {
-                        reject(err);
+                        reject("test");
                     } else if (results !== {}) {
                         resolve(results)
                     } else if (results === {}) {
