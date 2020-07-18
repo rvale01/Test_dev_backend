@@ -87,7 +87,8 @@ app.post('/question5/login', function (req, res) {
         password:password,
         email:email
     }
-    var token = jwt.sign(data, privateKEY, signOptions)
+    require('crypto').randomBytes(64).toString('hex')
+    // var token = jwt.sign(data, privateKEY, signOptions)
     // if (token) {
         // let result = insertIntoTable(name, email, token)
         res.json({ result: token });
