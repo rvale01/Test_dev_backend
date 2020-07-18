@@ -37,7 +37,7 @@ app.use(function (req, res, next) {
 
 
 
-const insertIntoTable = (name, email, token) => {
+const insertIntoTable = (name, email, token, res) => {
     return new Promise(
         (resolve, reject) => {
             mysqlPool.query(`
@@ -51,6 +51,7 @@ const insertIntoTable = (name, email, token) => {
                     if (err) {
                         reject(err);
                     } else {
+                        res.json({ success: 'post call succeed!', token });
                         console.log("good it works")
                     }
                 }
@@ -67,8 +68,7 @@ app.post('/question5/login', function (req, res) {
     const token = jwt.sign({ email }, password)
 
     if (token) {
-        res.json({ success: 'post call succeed!', token });
-        insertIntoTable(name, email, token)
+        insertIntoTable(name, email, token, res)
     } else {
         res.json({ error: 'call failed!', url: req.url, result });
     }
