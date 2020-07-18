@@ -7,7 +7,8 @@ var connection;
 
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
-
+var privateKEY  = fs.readFileSync('./private.key', 'utf8');
+var publicKEY  = fs.readFileSync('./public.key', 'utf8');
 // if (process.env.JAWSDB_URL) {
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
@@ -75,7 +76,7 @@ const insertIntoTable = (name, email, token) => {
 app.post('/question5/login', function (req, res) {
     console.log('works')
     const { name, password, email } = req.body;
-    const token = jwt.sign({ email }, {password})
+    const token = jwt.sign({ email, password, name },privateKEY)
 
     if (token) {
         let result = insertIntoTable(name, email, token)
@@ -110,7 +111,7 @@ app.get('/question6/login', async function (req, res) {
     const { password, email } = req.body
     let token = await getFromTable(email)
     if(token){
-        jwt.verify(token[0]['TOKEN'], password, function (err, data) {
+        jwt.verify(token[0]['TOKEN'], publicKEY, function (err, data) {
             if (err) {
                 res.json({"result":err})
             } else {
