@@ -138,10 +138,10 @@ const getFromTable = (email) => {
                     if (err) {
                         reject(err);
                     } else if (results.length > 0) {
-                        resolve("exists")
+                        resolve(results)
                     }
                     else {
-                        resolve(results)
+                        resolve("not exists")
                     }
                 }
             )
