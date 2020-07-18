@@ -8,17 +8,18 @@ var connection;
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
 
-if (process.env.JAWSDB_URL) {
-    connection = mysql.createConnection(process.env.JAWSDB_URL);
-} else {
+// if (process.env.JAWSDB_URL) {
+//     connection = mysql.createConnection(process.env.JAWSDB_URL);
+// } else {
     connection = mysql.createConnection({
         port: 3306,
+        name: "test-login-server",
         host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-        user: "qswn89zx79v1vp14",
+        username: "qswn89zx79v1vp14",
         password: "u5fvhdy5hkxuznd2",
         database: "eaq6ki6n4cy9qa28"
     })
-}
+// }
 
 connection.connect();
 
