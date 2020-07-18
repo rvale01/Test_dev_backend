@@ -64,8 +64,8 @@ const checkEmailInDB = (email) => {
                 function (err, results) {
                     if (err) {
                         reject(err);
-                    } else if(results.length<0){
-                        resolve("empty")
+                    } else if(results.length>0){
+                        resolve("full")
                     }else {
                         resolve(results)
                     }
