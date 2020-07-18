@@ -1,14 +1,15 @@
 var express = require('express');
 var jwt = require('jsonwebtoken')
 const app = express()
-// dotenv.config();
+
+var mysql = require("mysql");
+var connection;
+
 const port = process.env.PORT || 3000;
 var bodyParser = require('body-parser')
-// var jsonParser = bodyParser.json()
-// app.use(express.json({
-//     type: ['application/json', 'text/plain']
-//   }))
-// var connection = mysql.createConnection(process.env.)
+
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
