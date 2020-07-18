@@ -152,9 +152,9 @@ app.get('/question6/login', async function (req, res) {
 
     // res.json({ "res": token })
     if (token) {
-        res.json({ "res2": "nope" })
+        res.json({ "res2": "nope", token })
     }else{
-        res.json({"res":"ok"})
+        res.json({"res":"ok", token})
     }
     // if (token !=="email does not exist") {
     //     let tokenValue = token[0]['TOKEN']
