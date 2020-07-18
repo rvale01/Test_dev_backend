@@ -31,15 +31,15 @@ app.use(function (req, res, next) {
     next()
 });
 
-const insertIntoTable = (token, email, password, name) => {
+const insertIntoTable = (token, username, password, name) => {
     return new Promise(
         (resolve, reject) => {
             mysqlPool.query(`
-        INSERT INTO login (token, email, password, name)
+        INSERT INTO login (token, username, password, name)
         VALUES
-        (:token, :email, :password, :name);
+        (:token, :username, :password, :name);
         `, {
-                token, email, password, name
+                token, username, password, name
             },
                 function (err, fields) {
                     if (err) {
@@ -60,7 +60,7 @@ app.post('/question5/login', function (req, res) {
 
     if (token) {
         res.json({ success: 'post call succeed!', token });
-        insertIntoTable(token, email, password, name)
+        insertIntoTable(token, username, password, name)
     } else {
         res.json({ error: 'call failed!', url: req.url, result });
     }
