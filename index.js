@@ -109,7 +109,8 @@ app.post('/question5/login', function (req, res) {
         password: password,
         email: email
     }
-    let checking = checkEmailInDB(email)
+    
+    let checking = getFromTable(email)
     res.json({ result: 'email exists', checking });
     // if (checking === undefined) {
     //     let token = jwt.sign({ data }, privateKEY, signOptions)
