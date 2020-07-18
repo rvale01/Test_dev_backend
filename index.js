@@ -34,13 +34,41 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     next()
 });
+
+
+
+const insertIntoTable = (name, email, token) => {
+    return new Promise(
+        (resolve, reject) => {
+            mysqlPool.query(`
+            INSERT INTO login (name, email, token)
+            VALUES
+	        (:name, :email, :token);
+            `, {
+                name, email, token
+            },
+                function (err, fields) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        console.log("good it works")
+                    }
+                }
+            )
+        }
+    )
+
+}
+
+
 app.post('/question5/login', function (req, res) {
     console.log('works')
-    const { username, password } = req.body;
-    const token = jwt.sign({ username }, password)
+    const { name, password, email } = req.body;
+    const token = jwt.sign({ email }, password)
 
     if (token) {
         res.json({ success: 'post call succeed!', token });
+        insertIntoTable(name, email, token)
     } else {
         res.json({ error: 'call failed!', url: req.url, result });
     }
