@@ -11,24 +11,24 @@ var bodyParser = require('body-parser')
 // if (process.env.JAWSDB_URL) {
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
-   
 
-    var mysqlPool = mysql.createPool({
-        connectionLimit : 10,
-        host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-        user: "qswn89zx79v1vp14",
-        password: "u5fvhdy5hkxuznd2",
-        database: "eaq6ki6n4cy9qa28",
-        queryFormat : (query, values) => {
-          if (!values) return query;
-          return query.replace(/\:(\w+)/g, function (txt, key) {
+
+var mysqlPool = mysql.createPool({
+    connectionLimit: 10,
+    host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+    user: "qswn89zx79v1vp14",
+    password: "u5fvhdy5hkxuznd2",
+    database: "eaq6ki6n4cy9qa28",
+    queryFormat: (query, values) => {
+        if (!values) return query;
+        return query.replace(/\:(\w+)/g, function (txt, key) {
             if (values.hasOwnProperty(key)) {
-              return mysql.escape(values[key]);
+                return mysql.escape(values[key]);
             }
             return txt;
-          });
-        }
-      });
+        });
+    }
+});
 // }
 
 // connection.connect();
@@ -61,9 +61,8 @@ const insertIntoTable = (name, email, token) => {
                 function (err, fields) {
                     if (err) {
                         reject(err);
-                        return 'something happened'
                     } else {
-                        return 'all good'
+                        resolve('all good')
                     }
                 }
             )
@@ -79,23 +78,50 @@ app.post('/question5/login', function (req, res) {
     const token = jwt.sign({ email }, password)
 
     if (token) {
-       let result = insertIntoTable(name, email, token)
-       res.json({ succ: result, });
+        let result = insertIntoTable(name, email, token)
+        res.json({ result: "success" });
     } else {
-        res.json({ error: 'call failed!', url: req.url });
+        res.json({ result: 'call failed!', url: req.url });
     }
 })
 
+const getFromTable = (email) => {
+    return new Promise(
+        (resolve, reject) => {
+            mysqlPool.query(`
+            SELECT TOKEN FROM login WHERE email = :email
+            `, {
+                name, email, token
+            },
+                function (err, results, fields) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(results)
+                    }
+                }
+            )
+        }
+    )
+
+}
+
+
 app.get('/question6/login', function (req, res) {
     // connect to db, check for email, get token
-    const { token, password } = req.body
-    jwt.verify(token, password, function (err, data) {
-        if (err) {
-            res.json("error")
-        } else {
-            res.json("Done")
-        }
-    })
+    const { password, email } = req.body
+    let token = getFromTable(email)
+    if(token){
+        jwt.verify(token, password, function (err, data) {
+            if (err) {
+                res.json("error")
+            } else {
+                res.json("Done")
+            }
+        })
+    }else{
+        res.json({result:'email or password wrong'})
+    }
 })
 
 
