@@ -163,7 +163,7 @@ app.get('/question6/login', async function (req, res) {
                 }
             }
         })
-    } else if (token === []) {
+    } else if (token === undefined) {
         res.json({ result: 'email or password wrong' })
     }
 })
