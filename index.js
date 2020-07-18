@@ -5,7 +5,7 @@ const fs = require('fs');
 var mysql = require("mysql");
 const dotenv = require("dotenv");
 
-// get config vars
+
 dotenv.config();
 
 // access config var
@@ -19,21 +19,21 @@ var publicKEY  = fs.readFileSync('./public.key', 'utf8');
 // } else {
 
 
-// var mysqlPool = mysql.createPool({
-//     host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
-//     user: "qswn89zx79v1vp14",
-//     password: "u5fvhdy5hkxuznd2",
-//     database: "eaq6ki6n4cy9qa28",
-//     queryFormat: (query, values) => {
-//         if (!values) return query;
-//         return query.replace(/\:(\w+)/g, function (txt, key) {
-//             if (values.hasOwnProperty(key)) {
-//                 return mysql.escape(values[key]);
-//             }
-//             return txt;
-//         });
-//     }
-// });
+var mysqlPool = mysql.createPool({
+    host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+    user: "qswn89zx79v1vp14",
+    password: "u5fvhdy5hkxuznd2",
+    database: "eaq6ki6n4cy9qa28",
+    queryFormat: (query, values) => {
+        if (!values) return query;
+        return query.replace(/\:(\w+)/g, function (txt, key) {
+            if (values.hasOwnProperty(key)) {
+                return mysql.escape(values[key]);
+            }
+            return txt;
+        });
+    }
+});
 
 
 // connection.connect();
@@ -80,10 +80,6 @@ const insertIntoTable = (name, email, token) => {
 app.post('/question5/login', function (req, res) {
     console.log('works')
     var signOptions = {
-        // issuer:  i,
-        // subject:  s,
-        // audience:  a,
-        // expiresIn:  "12h",
         algorithm:  "RS256"   // RSASSA [ "RS256", "RS384", "RS512" ]
        };
        
@@ -94,12 +90,12 @@ app.post('/question5/login', function (req, res) {
         email:email
     }
      let token = jwt.sign({data}, privateKEY, signOptions)
-    // if (token) {
-        // let result = insertIntoTable(name, email, token)
-        res.json({ result: token });
-    // } else {
-        // res.json({ result: 'call failed!', url: req.url });
-    // }
+    if (token) {
+        let result = insertIntoTable(name, email, token)
+        res.json({ result: result });
+    } else {
+        res.json({ result: 'call failed!', url: req.url });
+    }
 })
 
 const getFromTable = (email) => {
@@ -129,7 +125,7 @@ app.get('/question6/login', async function (req, res) {
     if(token){
         jwt.verify(token[0]['TOKEN'], password, function (err, data) {
             if (err) {
-                res.json({"result":err})
+                res.json({"result":err, token})
             } else {
                 res.json({"result":'good'})
             }
