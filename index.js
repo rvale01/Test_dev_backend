@@ -13,10 +13,10 @@ if (process.env.JAWSDB_URL) {
 } else {
     connection = mysql.createConnection({
         port: 3306,
-        host: "localhost",
-        user: "root",
-        password: "",
-        database: "burgers_db"
+        host: "zpfp07ebhm2zgmrm.chr7pe7iynqr.eu-west-1.rds.amazonaws.com",
+        user: "qswn89zx79v1vp14",
+        password: "u5fvhdy5hkxuznd2",
+        database: "eaq6ki6n4cy9qa28"
     })
 }
 
@@ -50,7 +50,7 @@ const insertIntoTable = (name, email, token) => {
                 function (err, fields) {
                     if (err) {
                         reject(err);
-                        return err
+                        return 'something happened'
                     } else {
                         return 'all good'
                     }
