@@ -151,7 +151,7 @@ const getFromTable = (email) => {
 }
 
 
-app.get('/question6/login', async function (req, res) {
+app.post('/question6/login', async function (req, res) {
     // connect to db, check for email, get token
     const { password, email } = req.body
 
